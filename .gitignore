@@ -1,0 +1,8 @@
+test/Terraform/.terraform.lock.hcl
+test/Terraform/.terraform/providers/registry.terraform.io/yandex-cloud/yandex/0.126.0/linux_amd64/terraform-provider-yandex_v0.126.0
+test/Terraform/.terraform/providers/registry.terraform.io/yandex-cloud/yandex/0.126.0/linux_amd64/README.md
+test/Terraform/.terraform/providers/registry.terraform.io/yandex-cloud/yandex/0.126.0/linux_amd64/LICENSE
+test/Terraform/.terraform/providers/registry.terraform.io/yandex-cloud/yandex/0.126.0/linux_amd64/CHANGELOG.md
+test/Terraform/.terraform/providers/registry.terraform.io/hashicorp/template/2.2.0/linux_amd64/terraform-provider-template_v2.2.0_x4
+test/Terraform/.terraform/providers/registry.terraform.io/hashicorp/null/3.2.2/linux_amd64/terraform-provider-null_v3.2.2_x5
+test/Terraform/terraform.tfstate.backup

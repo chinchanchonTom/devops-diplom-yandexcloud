@@ -25,7 +25,8 @@
 ## Этапы выполнения:
 ```yml
 ```
-
+```hcl
+```
 ### Создание облачной инфраструктуры
 
 Для начала необходимо подготовить облачную инфраструктуру в ЯО при помощи [Terraform](https://www.terraform.io/).
@@ -42,20 +43,57 @@
 resource "yandex_iam_service_account" "service-diplom" {
     folder_id = var.yandex_folder_id
     name = "service-diplom"
-     
+
 }
 ```
 2. Подготовьте [backend](https://www.terraform.io/docs/language/settings/backends/index.html) для Terraform:  
    а. Рекомендуемый вариант: S3 bucket в созданном ЯО аккаунте(создание бакета через TF)
    б. Альтернативный вариант:  [Terraform Cloud](https://app.terraform.io/)  
+```hcl
+resource "yandex_storage_bucket" "bucket-diplom" {
+    bucket = "diplome-bucket"
+    access_key = yandex_iam_service_account_static_access_key.service-diplom.access_key
+    secret_key = yandex_iam_service_account_static_access_key.service-diplom.secret_key
+
+    anonymous_access_flags {
+      read = false
+      list = false
+    }
+  
+}
+
+```
 3. Создайте VPC с подсетями в разных зонах доступности.
+```hcl
+
+resource "yandex_vpc_network" "subnet" {
+    name = "subnet"
+  
+}
+
+resource "yandex_vpc_subnet" "subnet" {
+    count       = 3
+    name        = "subnet-${var.subnet[count.index]}"
+    zone        = "${var.subnet[count.index]}"
+    network_id  = "${yandex_vpc_network.subnet.id}" 
+    v4_cidr_blocks = [ "${var.cidr.test[count.index]}" ]
+  
+}
+
+```
 4. Убедитесь, что теперь вы можете выполнить команды `terraform destroy` и `terraform apply` без дополнительных ручных действий.
+
+scrinshot.
+
 5. В случае использования [Terraform Cloud](https://app.terraform.io/) в качестве [backend](https://www.terraform.io/docs/language/settings/backends/index.html) убедитесь, что применение изменений успешно проходит, используя web-интерфейс Terraform cloud.
 
 Ожидаемые результаты:
 
 1. Terraform сконфигурирован и создание инфраструктуры посредством Terraform возможно без дополнительных ручных действий.
+skrinshot 
+
 2. Полученная конфигурация инфраструктуры является предварительной, поэтому в ходе дальнейшего выполнения задания возможны изменения.
+skrin
 
 ---
 ### Создание Kubernetes кластера
@@ -75,9 +113,13 @@ resource "yandex_iam_service_account" "service-diplom" {
 Ожидаемый результат:
 
 1. Работоспособный Kubernetes кластер.
-2. В файле `~/.kube/config` находятся данные для доступа к кластеру.
-3. Команда `kubectl get pods --all-namespaces` отрабатывает без ошибок.
+Создал на основе кубспрей + файлы для invrntory взял из созданого тераформом 
 
+2. В файле `~/.kube/config` находятся данные для доступа к кластеру.
+скриншот 
+
+3. Команда `kubectl get pods --all-namespaces` отрабатывает без ошибок.
+скрин шот 
 ---
 ### Создание тестового приложения
 
@@ -94,7 +136,14 @@ resource "yandex_iam_service_account" "service-diplom" {
 Ожидаемый результат:
 
 1. Git репозиторий с тестовым приложением и Dockerfile.
-2. Регистри с собранным docker image. В качестве регистри может быть DockerHub или [Yandex Container Registry](https://cloud.yandex.ru/services/container-registry), созданный также с помощью terraform.
+
+https://github.com/chinchanchonTom/diplom
+
+2. Регистри с собранным docker image. В качестве регистри может быть DockerHub или [Yandex Container Registry](https://cloud.yandex.ru/services/container-registry), созданный также с помощью terraform. 
+
+Выбрал docker hub 
+
+Скриншот того что что собралось и запушилось 
 
 ---
 ### Подготовка cистемы мониторинга и деплой приложения
@@ -109,13 +158,19 @@ resource "yandex_iam_service_account" "service-diplom" {
 Способ выполнения:
 1. Воспользоваться пакетом [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus), который уже включает в себя [Kubernetes оператор](https://operatorhub.io/) для [grafana](https://grafana.com/), [prometheus](https://prometheus.io/), [alertmanager](https://github.com/prometheus/alertmanager) и [node_exporter](https://github.com/prometheus/node_exporter). Альтернативный вариант - использовать набор helm чартов от [bitnami](https://github.com/bitnami/charts/tree/main/bitnami).
 
+ 
+
 2. Если на первом этапе вы не воспользовались [Terraform Cloud](https://app.terraform.io/), то задеплойте и настройте в кластере [atlantis](https://www.runatlantis.io/) для отслеживания изменений инфраструктуры. Альтернативный вариант 3 задания: вместо Terraform Cloud или atlantis настройте на автоматический запуск и применение конфигурации terraform из вашего git-репозитория в выбранной вами CI-CD системе при любом комите в main ветку. Предоставьте скриншоты работы пайплайна из CI/CD системы.
 
 Ожидаемый результат:
 1. Git репозиторий с конфигурационными файлами для настройки Kubernetes.
+
 2. Http доступ к web интерфейсу grafana.
+Воспользовался helm prometeus + grafa и развернул на своем кластере 
 3. Дашборды в grafana отображающие состояние Kubernetes кластера.
+скрин
 4. Http доступ к тестовому приложению.
+скрин
 
 ---
 ### Установка и настройка CI/CD

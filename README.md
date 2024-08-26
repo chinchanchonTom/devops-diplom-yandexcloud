@@ -23,7 +23,8 @@
 
 ---
 ## Этапы выполнения:
-
+```yml
+```
 
 ### Создание облачной инфраструктуры
 
@@ -37,6 +38,13 @@
 Предварительная подготовка к установке и запуску Kubernetes кластера.
 
 1. Создайте сервисный аккаунт, который будет в дальнейшем использоваться Terraform для работы с инфраструктурой с необходимыми и достаточными правами. Не стоит использовать права суперпользователя
+```hcl
+resource "yandex_iam_service_account" "service-diplom" {
+    folder_id = var.yandex_folder_id
+    name = "service-diplom"
+     
+}
+```
 2. Подготовьте [backend](https://www.terraform.io/docs/language/settings/backends/index.html) для Terraform:  
    а. Рекомендуемый вариант: S3 bucket в созданном ЯО аккаунте(создание бакета через TF)
    б. Альтернативный вариант:  [Terraform Cloud](https://app.terraform.io/)  

@@ -448,14 +448,21 @@ Plan: 13 to add, 0 to change, 0 to destroy.
 
 ```
 </details>
-scrinshot66.
+![push](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_66.png)  
+[account-service](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/account-service.tf)  
+[bucket](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/bucket.tf)  
+[provider](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/provider.tf)  
+[variable](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/variable.tf)  
+[vm](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/vm.tf)  
+[vpc](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/vpc.tf)  
+[Terraform](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/tree/main/test/Terraform)- ссылка на всю директорию с проектом (Пристсвуют пустые файлы)  
 
 5. В случае использования [Terraform Cloud](https://app.terraform.io/) в качестве [backend](https://www.terraform.io/docs/language/settings/backends/index.html) убедитесь, что применение изменений успешно проходит, используя web-интерфейс Terraform cloud.
 
 Ожидаемые результаты:
 
 1. Terraform сконфигурирован и создание инфраструктуры посредством Terraform возможно без дополнительных ручных действий.
-![alt text](image.png) 
+![alt text](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/image.png) 
 
 2. Полученная конфигурация инфраструктуры является предварительной, поэтому в ходе дальнейшего выполнения задания возможны изменения.
 
@@ -530,9 +537,10 @@ https://github.com/chinchanchonTom/diplom
 Выбрал docker hub 
 
 Скриншот того что что собралось и запушилось 
-333
+![push](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/photo_2024-08-27_19-58-05.jpg)   
 
-photo
+![photo](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_333.png)   
+
 ---
 ### Подготовка cистемы мониторинга и деплой приложения
 

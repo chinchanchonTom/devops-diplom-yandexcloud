@@ -447,15 +447,16 @@ Plan: 13 to add, 0 to change, 0 to destroy.
 
 
 ```
-</details>
-![push](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_66.png)  
-[account-service](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/account-service.tf)  
-[bucket](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/bucket.tf)  
-[provider](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/provider.tf)  
-[variable](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/variable.tf)  
-[vm](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/vm.tf)  
-[vpc](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/vpc.tf)  
-[Terraform](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/tree/main/test/Terraform)- ссылка на всю директорию с проектом (Пристсвуют пустые файлы)  
+</details>  
+
+![push](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_66.png)    
+[account-service](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/account-service.tf)    
+[bucket](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/bucket.tf)    
+[provider](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/provider.tf)    
+[variable](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/variable.tf)    
+[vm](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/vm.tf)    
+[vpc](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/Terraform/vpc.tf)    
+[Terraform](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/tree/main/test/Terraform)  - ссылка на всю директорию с проектом (Пристсвуют пустые файлы)  
 
 5. В случае использования [Terraform Cloud](https://app.terraform.io/) в качестве [backend](https://www.terraform.io/docs/language/settings/backends/index.html) убедитесь, что применение изменений успешно проходит, используя web-интерфейс Terraform cloud.
 

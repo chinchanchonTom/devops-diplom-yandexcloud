@@ -82,18 +82,384 @@ resource "yandex_vpc_subnet" "subnet" {
 
 ```
 4. Убедитесь, что теперь вы можете выполнить команды `terraform destroy` и `terraform apply` без дополнительных ручных действий.
+<details><summary>Решение:</summary>  
 
-scrinshot.
+```
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+  # data.template_file.inventory will be read during apply
+  # (config refers to values not yet known)
+ <= data "template_file" "inventory" {
+      + id       = (known after apply)
+      + rendered = (known after apply)
+      + template = <<-EOT
+            [all]
+            ${hosts_control}
+            ${hosts_work}
+            
+            [kube_control_plane]
+            ${list_master}
+            
+            [etcd]
+            ${list_master}
+            
+            [kube_node]
+            ${list_work}
+            
+            [k8s_cluster:children]
+            kube_control_plane
+            kube_node
+        EOT
+      + vars     = {
+          + "hosts_control" = (known after apply)
+          + "hosts_work"    = (known after apply)
+          + "list_master"   = "master-0"
+          + "list_work"     = <<-EOT
+                work-0
+                work-1
+            EOT
+        }
+    }
+
+  # null_resource.inventory-rend will be created
+  + resource "null_resource" "inventory-rend" {
+      + id       = (known after apply)
+      + triggers = {
+          + "template" = (known after apply)
+        }
+    }
+
+  # yandex_compute_instance.master[0] will be created
+  + resource "yandex_compute_instance" "master" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + gpu_cluster_id            = (known after apply)
+      + hostname                  = (known after apply)
+      + id                        = (known after apply)
+      + maintenance_grace_period  = (known after apply)
+      + maintenance_policy        = (known after apply)
+      + metadata                  = {
+          + "ssh-keys" = <<-EOT
+                ubuntu:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN0idgJXK3owvfPns39Jo7dqIPtd4M/rKZSF+QbdNq/P maksim@DESKTOP-KV1P3C1
+            EOT
+        }
+      + name                      = "master-0"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8clogg1kull9084s9o"
+              + name        = (known after apply)
+              + size        = 25
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 20
+          + cores         = 2
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = true
+        }
+    }
+
+  # yandex_compute_instance.work[0] will be created
+  + resource "yandex_compute_instance" "work" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + gpu_cluster_id            = (known after apply)
+      + hostname                  = (known after apply)
+      + id                        = (known after apply)
+      + labels                    = {
+          + "index" = "0"
+        }
+      + maintenance_grace_period  = (known after apply)
+      + maintenance_policy        = (known after apply)
+      + metadata                  = {
+          + "ssh-keys" = <<-EOT
+                ubuntu:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN0idgJXK3owvfPns39Jo7dqIPtd4M/rKZSF+QbdNq/P maksim@DESKTOP-KV1P3C1
+            EOT
+        }
+      + name                      = "work-0"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8clogg1kull9084s9o"
+              + name        = (known after apply)
+              + size        = 25
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 20
+          + cores         = 2
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = true
+        }
+    }
+
+  # yandex_compute_instance.work[1] will be created
+  + resource "yandex_compute_instance" "work" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + gpu_cluster_id            = (known after apply)
+      + hostname                  = (known after apply)
+      + id                        = (known after apply)
+      + labels                    = {
+          + "index" = "1"
+        }
+      + maintenance_grace_period  = (known after apply)
+      + maintenance_policy        = (known after apply)
+      + metadata                  = {
+          + "ssh-keys" = <<-EOT
+                ubuntu:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN0idgJXK3owvfPns39Jo7dqIPtd4M/rKZSF+QbdNq/P maksim@DESKTOP-KV1P3C1
+            EOT
+        }
+      + name                      = "work-1"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-b"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8clogg1kull9084s9o"
+              + name        = (known after apply)
+              + size        = 25
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 20
+          + cores         = 2
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = true
+        }
+    }
+
+  # yandex_iam_service_account.service-diplom will be created
+  + resource "yandex_iam_service_account" "service-diplom" {
+      + created_at = (known after apply)
+      + folder_id  = "b1gfqjnr717cnd3hdl42"
+      + id         = (known after apply)
+      + name       = "service-diplom"
+    }
+
+  # yandex_iam_service_account_static_access_key.service-diplom will be created
+  + resource "yandex_iam_service_account_static_access_key" "service-diplom" {
+      + access_key                   = (known after apply)
+      + created_at                   = (known after apply)
+      + description                  = "Статичный ключ для хранилища бакета"
+      + encrypted_secret_key         = (known after apply)
+      + id                           = (known after apply)
+      + key_fingerprint              = (known after apply)
+      + output_to_lockbox_version_id = (known after apply)
+      + secret_key                   = (sensitive value)
+      + service_account_id           = "ajeuv877ta6v60dla4ee"
+    }
+
+  # yandex_resourcemanager_folder_iam_member.izmenenie will be created
+  + resource "yandex_resourcemanager_folder_iam_member" "izmenenie" {
+      + folder_id = "b1gfqjnr717cnd3hdl42"
+      + id        = (known after apply)
+      + member    = (known after apply)
+      + role      = "editor"
+    }
+
+  # yandex_resourcemanager_folder_iam_member.prosmotr will be created
+  + resource "yandex_resourcemanager_folder_iam_member" "prosmotr" {
+      + folder_id = "b1gfqjnr717cnd3hdl42"
+      + id        = (known after apply)
+      + member    = (known after apply)
+      + role      = "viewer"
+    }
+
+  # yandex_storage_bucket.bucket-diplom will be created
+  + resource "yandex_storage_bucket" "bucket-diplom" {
+      + access_key            = (known after apply)
+      + bucket                = "diplome-bucket"
+      + bucket_domain_name    = (known after apply)
+      + default_storage_class = (known after apply)
+      + folder_id             = (known after apply)
+      + force_destroy         = false
+      + id                    = (known after apply)
+      + secret_key            = (sensitive value)
+      + website_domain        = (known after apply)
+      + website_endpoint      = (known after apply)
+
+      + anonymous_access_flags {
+          + list = false
+          + read = false
+        }
+    }
+
+  # yandex_vpc_network.subnet will be created
+  + resource "yandex_vpc_network" "subnet" {
+      + created_at                = (known after apply)
+      + default_security_group_id = (known after apply)
+      + folder_id                 = (known after apply)
+      + id                        = (known after apply)
+      + labels                    = (known after apply)
+      + name                      = "subnet"
+      + subnet_ids                = (known after apply)
+    }
+
+  # yandex_vpc_subnet.subnet[0] will be created
+  + resource "yandex_vpc_subnet" "subnet" {
+      + created_at     = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + labels         = (known after apply)
+      + name           = "subnet-ru-central1-a"
+      + network_id     = (known after apply)
+      + v4_cidr_blocks = [
+          + "192.168.10.0/24",
+        ]
+      + v6_cidr_blocks = (known after apply)
+      + zone           = "ru-central1-a"
+    }
+
+  # yandex_vpc_subnet.subnet[1] will be created
+  + resource "yandex_vpc_subnet" "subnet" {
+      + created_at     = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + labels         = (known after apply)
+      + name           = "subnet-ru-central1-b"
+      + network_id     = (known after apply)
+      + v4_cidr_blocks = [
+          + "192.168.20.0/24",
+        ]
+      + v6_cidr_blocks = (known after apply)
+      + zone           = "ru-central1-b"
+    }
+
+  # yandex_vpc_subnet.subnet[2] will be created
+  + resource "yandex_vpc_subnet" "subnet" {
+      + created_at     = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + labels         = (known after apply)
+      + name           = "subnet-ru-central1-d"
+      + network_id     = (known after apply)
+      + v4_cidr_blocks = [
+          + "192.168.30.0/24",
+        ]
+      + v6_cidr_blocks = (known after apply)
+      + zone           = "ru-central1-d"
+    }
+
+Plan: 13 to add, 0 to change, 0 to destroy.
+
+
+```
+</details>
+scrinshot66.
 
 5. В случае использования [Terraform Cloud](https://app.terraform.io/) в качестве [backend](https://www.terraform.io/docs/language/settings/backends/index.html) убедитесь, что применение изменений успешно проходит, используя web-интерфейс Terraform cloud.
 
 Ожидаемые результаты:
 
 1. Terraform сконфигурирован и создание инфраструктуры посредством Terraform возможно без дополнительных ручных действий.
-skrinshot 
+![alt text](image.png) 
 
 2. Полученная конфигурация инфраструктуры является предварительной, поэтому в ходе дальнейшего выполнения задания возможны изменения.
-skrin
+
+Предоставил выше всю конфигурацию после окончания работы с Terraform
 
 ---
 ### Создание Kubernetes кластера
@@ -113,13 +479,30 @@ skrin
 Ожидаемый результат:
 
 1. Работоспособный Kubernetes кластер.
-Создал на основе кубспрей + файлы для invrntory взял из созданого тераформом 
+Создал на основе кубспрей + файлы для invrntory взял из созданого тераформом для этого 
+
+1.Скачал с Репозитория kubespray  
+2.Установил зависимости при помощи pip3 install -r requirements.txt  
+3.Скопировал пример sample в mycluster 
+4.Добавил файл с хостами  
+5.Запустил ansible-playbook -i inventory/mycluster/inventory-.ini cluster.yml -b -v
+
+```
+PLAY RECAP ***************************************************************************************************************************************************
+control-0                  : ok=756  changed=153  unreachable=0    failed=0    skipped=1280 rescued=0    ignored=8
+worker-0                   : ok=512  changed=94   unreachable=0    failed=0    skipped=781  rescued=0    ignored=0
+worker-1                   : ok=512  changed=94   unreachable=0    failed=0    skipped=780  rescued=0    ignored=0
+
+```
 
 2. В файле `~/.kube/config` находятся данные для доступа к кластеру.
-скриншот 
+
+При разворачивании кластера кофигурация сохранилась в /etc/kubernetes/admin.conf. Создал mkdir ~/.kube/ и через нано скопировал туда конфиг   
+
+![config](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_19.png) 
 
 3. Команда `kubectl get pods --all-namespaces` отрабатывает без ошибок.
-скрин шот 
+![kubectl get pods](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_1.png) 
 ---
 ### Создание тестового приложения
 
@@ -137,6 +520,9 @@ skrin
 
 1. Git репозиторий с тестовым приложением и Dockerfile.
 
+
+Создал отдельный репозиторий и загрузил туда версию приложения V1.0.0 
+
 https://github.com/chinchanchonTom/diplom
 
 2. Регистри с собранным docker image. В качестве регистри может быть DockerHub или [Yandex Container Registry](https://cloud.yandex.ru/services/container-registry), созданный также с помощью terraform. 
@@ -144,7 +530,9 @@ https://github.com/chinchanchonTom/diplom
 Выбрал docker hub 
 
 Скриншот того что что собралось и запушилось 
+333
 
+photo
 ---
 ### Подготовка cистемы мониторинга и деплой приложения
 
@@ -165,12 +553,22 @@ https://github.com/chinchanchonTom/diplom
 Ожидаемый результат:
 1. Git репозиторий с конфигурационными файлами для настройки Kubernetes.
 
-2. Http доступ к web интерфейсу grafana.
-Воспользовался helm prometeus + grafa и развернул на своем кластере 
+Воспользовался helm prometeus + grafa и развернул на своем кластере
+![helm](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_2.png) 
+![kubectl](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_3.png)  
+
+2. Http доступ к web интерфейсу grafana.  
+
+![grafana](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_5.png)
+
 3. Дашборды в grafana отображающие состояние Kubernetes кластера.
-скрин
+
+![grafana](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_18.png)
+
 4. Http доступ к тестовому приложению.
-скрин
+ 
+![grafana](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_6.png)
+
 
 ---
 ### Установка и настройка CI/CD
@@ -187,8 +585,44 @@ https://github.com/chinchanchonTom/diplom
 Ожидаемый результат:
 
 1. Интерфейс ci/cd сервиса доступен по http.
+
+![gitlab](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_17.png)
+20
+
 2. При любом коммите в репозиторие с тестовым приложением происходит сборка и отправка в регистр Docker образа.
-3. При создании тега (например, v1.0.0) происходит сборка и отправка с соответствующим label в регистри, а также деплой соответствующего Docker образа в кластер Kubernetes.
+
+```yml
+build:
+  stage: build
+  script:
+    - hostname
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_PASSWORD" $CI_REGISTRY
+    - docker build -t "$CI_IMAGE_REGISTRY:$CI_COMMIT_SHORT_SHA" ./docker
+    - docker push "$CI_IMAGE_REGISTRY:$CI_COMMIT_SHORT_SHA"
+  
+  rules:
+    - if: $CI_COMMIT_BRANCH -> правило что бы пушилось при каждом изменении в репозиторий 
+
+```
+
+3. При создании тега (например, v1.0.0) происходит сборка и отправка с соответствующим label в регистри, а также деплой соответствующего Docker образа в класте Kubernetes.
+
+```yml
+deploy:
+  stage: deploy
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_PASSWORD" $CI_REGISTRY
+    - docker build -t "$CI_IMAGE_REGISTRY:$CI_COMMIT_SHORT_SHA" ./docker
+    - docker push "$CI_IMAGE_REGISTRY"
+    - kubectl create deployment --namespace default dimlome-$CI_COMMIT_SHORT_SHA --image=$CI_IMAGE_REGISTRY:$CI_COMMIT_SHORT_SHA
+  
+  rules:
+    - if: $CI_COMMIT_TAG -> правило что бы пушилось при каждом изменении тэга
+
+```
+![gitlab](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_9.png)  
+![gitlab](https://github.com/chinchanchonTom/devops-diplom-yandexcloud/blob/main/test/img/Screenshot_8.png)  
+
 
 ---
 ## Что необходимо для сдачи задания?
